@@ -161,6 +161,7 @@ Options:
 
 tpp --help: displays help in text mode
 tpp -l output input.tpp: converts tpp file into a LaTeX slide
+tpp --version: displays version number
 
 The LaTeX slide output option is currently unsupported and will most likely not
 work correctly!

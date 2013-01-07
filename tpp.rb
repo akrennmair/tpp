@@ -836,7 +836,7 @@ filename = nil
 output_latex = false
 latex_filename = nil
 skip_next = false
-version_number = 1.0 
+version_number = "1.1.1" 
 ARGV.each_index do |i|
   if skip_next then
     skip_next = false
@@ -847,6 +847,9 @@ ARGV.each_index do |i|
       skip_next = true
     elsif ARGV[i] == "-h" or ARGV[i] == "--help" then
       printf "tpp - text presentation program %s\n", version_number
+    elsif ARGV[i] == "-v" or ARGV[i] == "--version" then
+      printf "tpp - text presentation program %s\n", version_number
+      Kernel.exit(1)
     elsif filename == nil then
       filename = ARGV[i]
     end
@@ -857,6 +860,7 @@ end
 if filename == nil then
   $stderr.puts "usage: #{$0} [options] <file>"
   $stderr.puts "\nOptions: -l <outputfile> <file> convert presentation to latex"
+  $stderr.puts "\t --version\t\tprints this help"
   $stderr.puts "\t --help\t\t\tprints this help"
   Kernel.exit(1)
 end
