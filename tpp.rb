@@ -725,9 +725,13 @@ class NcursesVisualizer < TppVisualizer
   end
 
   def do_exec(cmdline)
-    rc = Kernel.system(cmdline)
-    if not rc then
-      # @todo: add error message
+    if $execok then
+      rc = Kernel.system(cmdline)
+      if not rc then
+        # @todo: add error message
+      end
+    else
+      @screen.addstr("--exec disabled by default for security reasons. Use option -x to enable it.")
     end
   end
 
@@ -1683,6 +1687,7 @@ def usage
   $stderr.puts "\t -t <type>\tset filetype <type> as output format"
   $stderr.puts "\t -o <file>\twrite output to file <file>"
   $stderr.puts "\t -s <seconds>\twait <seconds> seconds between slides (with -t autoplay)"
+  $stderr.puts "\t -x\t\tallow parsing of --exec in input files"
   $stderr.puts "\t --version\tprint the version"
   $stderr.puts "\t --help\t\tprint this help"
   $stderr.puts "\n\t currently available types: ncurses (default), autoplay, latex, txt"
@@ -1699,6 +1704,7 @@ input = nil
 output = nil
 type = "ncurses"
 time = 1
+$execok = nil
 
 skip_next = false
 
@@ -1720,6 +1726,8 @@ ARGV.each_index do |i|
     elsif ARGV[i] == "-s" then
       time = ARGV[i+1].to_i
       skip_next = true
+    elsif ARGV[i] == "-x" then
+      $execok = 1
     elsif input == nil then
       input = ARGV[i]
     end
