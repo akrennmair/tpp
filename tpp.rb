@@ -489,7 +489,7 @@ end
 # Implements an interactive visualizer which builds on top of ncurses.
 class NcursesVisualizer < TppVisualizer
 
-  def initialize
+  def initialize(margin)
     @figletfont = "standard"
     Ncurses.initscr
     Ncurses.curs_set(0)
@@ -504,7 +504,7 @@ class NcursesVisualizer < TppVisualizer
     do_bgcolor("black")
     #do_fgcolor("white")
     @fgcolor = ColorMap.get_color_pair("white")
-    @voffset = 5
+    @voffset = margin
     @indent = 3
     @cur_line = @voffset
     @output = @shelloutput = false
@@ -1294,9 +1294,9 @@ end
 # unattended presentation.
 class AutoplayController < TppController
 
-  def initialize(filename,secs,visualizer_class)
+  def initialize(filename,secs,margin,visualizer_class)
     @filename = filename
-    @vis = visualizer_class.new
+    @vis = visualizer_class.new(margin)
     @seconds = secs
     @cur_page = 0
   end
@@ -1353,9 +1353,9 @@ end
 # told to stop, and then reads a key press and executes the appropiate action.
 class InteractiveController < TppController
 
-  def initialize(filename,visualizer_class)
+  def initialize(filename,margin,visualizer_class)
     @filename = filename
-    @vis = visualizer_class.new
+    @vis = visualizer_class.new(margin)
     @cur_page = 0
   end
 
@@ -1431,7 +1431,7 @@ class InteractiveController < TppController
             ch = @vis.get_key
             @vis.clear
             @vis.restore_screen(screen)
-          when :keyright, :keydown, ' '.ord
+          when :keyright, :keydown, 32
             if @cur_page + 1 < @pages.size and eop then
               @cur_page += 1
               @pages[@cur_page].reset_eop
@@ -1699,7 +1699,7 @@ input = nil
 output = nil
 type = "ncurses"
 time = 1
-
+margin = 5
 skip_next = false
 
 ARGV.each_index do |i|
@@ -1720,6 +1720,9 @@ ARGV.each_index do |i|
     elsif ARGV[i] == "-s" then
       time = ARGV[i+1].to_i
       skip_next = true
+    elsif ARGV[i] == '-m'
+      margin = ARGV[i+1].to_i
+      skip_next = true
     elsif input == nil then
       input = ARGV[i]
     end
@@ -1739,10 +1742,10 @@ ctrl = nil
 case type
   when "ncurses"
     load_ncurses
-    ctrl = InteractiveController.new(input,NcursesVisualizer)
+    ctrl = InteractiveController.new(input,margin,NcursesVisualizer)
   when "autoplay"
     load_ncurses
-    ctrl = AutoplayController.new(input,time,NcursesVisualizer)
+    ctrl = AutoplayController.new(input,time,margin,NcursesVisualizer)
   when "txt"
     if output == nil then
       usage
