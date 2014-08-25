@@ -861,7 +861,7 @@ class NcursesVisualizer < TppVisualizer
   def do_huge(figlet_text)
     output_width = @termwidth - @indent
     output_width -= 2 if @output or @shelloutput
-    op = IO.popen("figlet -f #{@figletfont} -w #{output_width} -k \"#{figlet_text}\"","r")
+    op = IO.popen(["figlet", "-f", @figletfont, "-w", output_width, "-k", figlet_text], "r")
     op.readlines.each do |line|
       print_line(line)
     end
