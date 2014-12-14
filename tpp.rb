@@ -568,13 +568,17 @@ class NcursesVisualizer < TppVisualizer
       window.move(@termheight/4,1+prompt.length+cursor_pos) # move cursor to the end of code
       ch = window.getch
       case ch
-        when Ncurses::KEY_ENTER, ?\n, ?\r
+        when Ncurses::KEY_ENTER, "\n"[0].ord, "\r"[0].ord
           Ncurses.curs_set(0)
           Ncurses.noecho
+          window.move(@termheight/4 + 1,1) # move cursor to the next line
+          window.refresh
           rc = Kernel.system(string)
           if not rc then
             @screen.mvaddstr(@termheight/4+1,1,"Error: exec \"#{string}\" failed with error code #{$?}")
             @screen.mvaddstr(@termheight-2,@termwidth/2-message.length/2,message)
+            ch = Ncurses.getch()
+            @screen.refresh
           end
           if rc then
             @screen.mvaddstr(@termheight-2,@termwidth/2-message.length/2,message)
@@ -582,15 +586,15 @@ class NcursesVisualizer < TppVisualizer
             @screen.refresh
           end
           return
-		when Ncurses::KEY_LEFT
+        when Ncurses::KEY_LEFT
           cursor_pos = [0, cursor_pos-1].max # jump one character to the left
         when Ncurses::KEY_RIGHT
           cursor_pos = [0, cursor_pos+1].max # jump one character to the right
-        when Ncurses::KEY_BACKSPACE
+        when Ncurses::KEY_BACKSPACE, "\b"[0].ord, 127
           string = string[0...([0, cursor_pos-1].max)] + string[cursor_pos..-1]
           cursor_pos = [0, cursor_pos-1].max
-          window.mvaddstr(@termheight/4, 1+prompt.length+string.length, " ")
-        when " "[0]..255
+          window.mvaddstr(@termheight/4, 1+prompt.length+string.length, "   ")
+        when " "[0].ord..255
           if (cursor_pos < max_len)
             string[cursor_pos,0] = ch.chr
             cursor_pos += 1
