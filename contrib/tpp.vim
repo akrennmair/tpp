@@ -1,14 +1,13 @@
 " Vim syntax file
 " Language:	tpp - Text Presentation Program
-" Maintainer:	Gerfried Fuchs <alfie@ist.org>
+" Maintainer:	Rhonda D'Vine <rhonda@deb.at>
 " Filenames:	*.tpp
 " Last Change:	24. February 2005
-" URL:		http://alfie.ist.org/projects/vim/syntax/tpp.vim
-" License:	BSD
+" URL:		http://rhonda.deb.at/projects/vim/syntax/tpp.vim
+" License:	WTFPLv2
 "
 " Comments are very welcome - but please make sure that you are commenting on
 " the latest version of this file.
-" SPAM is _NOT_ welcome - be ready to be reported!
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
