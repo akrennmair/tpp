@@ -152,7 +152,7 @@ $
 
   * Sven Guckes, who had the initial idea and established contact with Nico Golde, the TPP co-author
 
-  * Alfie, for writing a VIM syntax file
+  * Rhonda, for writing a VIM syntax file
 
   * arved, for bringing TPP into FreeBSD
 
