@@ -1435,7 +1435,7 @@ class InteractiveController < TppController
             ch = @vis.get_key
             @vis.clear
             @vis.restore_screen(screen)
-          when :keyright, :keydown, ' '.ord
+          when :keyright, :keydown, 32
             if @cur_page + 1 < @pages.size and eop then
               @cur_page += 1
               @pages[@cur_page].reset_eop
