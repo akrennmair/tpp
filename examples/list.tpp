@@ -22,5 +22,5 @@
 * Conclusions
 ---
 
-And now for the inofficial part
+And now for the unofficial part
 --center PARTY, PARTY, PARTY !!!
