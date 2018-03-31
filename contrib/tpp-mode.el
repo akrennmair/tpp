@@ -90,7 +90,7 @@ eg."
    ["Options" (customize-group "Tpp") ]
 ))
 
-;; Syntax Higlighting
+;; Syntax Highlighting
 (defvar tpp-mode-font-lock-keywords nil
   "Tpp keywords used by font-lock.")
 (if tpp-mode-font-lock-keywords ()
